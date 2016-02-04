@@ -1,0 +1,328 @@
+<div data-role="page" id="project">
+	<main>
+	<div class="heading_top">
+    	<div class="container">
+    		<h5 class="fittext4">The <span>Lady Fatemah</span><small class="fittext3">(A.S)</small> Charitable Trust</h5>
+    	</div>
+    </div>
+    
+    <div class="title_bg1">	
+    	<div class="container">
+            <h3><a href="home.html" class="back-arrow"></a></h3>
+            <h1 class="fittext5">Project<div class="head_icon"><img src="img/icon3.png" alt="appeal_icon"/></div></h1>
+       </div>
+    </div>
+	<div class="clear"></div>
+	 <div class="selectboxes">
+	 <select id="project_categories" disabled="true">
+	  <option value=''>Select Category</option>
+	 </select>
+	</div>
+	<div class="selectboxes">
+	 <select id="projects_region" disabled="true">
+	 <option value=''>Select Region</option>
+	 </select>
+	</div>
+    <div class="clear"></div>
+    <div class="proj_content">
+        <ul>
+            
+            
+        </ul>
+	   <div class="loadmore" id="load_project">Load more</div>
+	   <div class="loadmore2" id="load_project2">Load more</div>
+    </div>
+	
+	<div class="ui-loader ui-corner-all ui-body-a ui-loader-default" style="display:none;"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+    <!--<div class="content_about">
+    	<div class="container">
+    	<p class="the_context paragraph">The Lady Fatemah Charitable Trust's central ethos is to give. And to give fully by eliminating all administration costs from funding. This means that every penny of your donation counts and goes towards establishing a better future for thousands around the world.</p>
+        <p class="the_context paragraph">There are many that do not have access to basic human rights such as water, shelter, with the help of supporters and volunteers around the world, we reach out to various villages, towns, families, individuals, charities and organizations to provide assistance on various appeals and projects.</p>
+        </div>
+    </div>-->
+
+	<div class="clear"></div>
+       <div class="footer_tab_btn">
+        <ul>
+            <li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt=""/></a></li>
+            <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt=""/></a></li>
+            <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt=""/></a></li>
+            <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt=""/></a></li>
+            <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt=""/></a></li>
+            <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt=""/></a></li>
+        </ul>
+    </div> 
+    </main>
+
+ 	<script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext5").fitText(1.4, { minFontSize: '22px', maxFontSize: '44px' });
+		$(".appeal").fitText(2.3, { minFontSize: '10px', maxFontSize: '28px' });
+		$(".paragraph").fitText(2.0, { minFontSize: '12px', maxFontSize: '28px' });
+		
+	</script>
+      <script>
+function AllProjects(categoryId , regionId , statusId,limits ) {
+  
+  var packageId, packageTitle , packageDescription  , projectDate,projectDay ,projectDayLetter ,projectMonth ,projectYear;
+  var projectHtml = '';
+  var totalRecords = 0;
+  var year = new Date().getFullYear();
+  $.ajax({
+      type: "POST",
+      async: false,
+      dataType: "json",
+      url: 'http://www.ladyfatemahtrust.org/services/allprojects.php',
+      data: {categoryId :categoryId ,regionId:regionId ,statusId:statusId ,year : year,limits:limits },
+	  beforeSend:function(){
+		$(".ui-loader").show();
+	  },
+      success: 
+      function(data) { 
+       $(".ui-loader").hide();
+        var result = data['data'];
+        totalRecords = data['data'].length;
+    
+        if(totalRecords >0 ) {
+        
+          for(var i=0; i< totalRecords ; i++) {
+      
+           projectId          = result[i]['post_id'];
+           projectTitle        = result[i]['post_title'];
+           projectDescription      = result[i]['post_content'];
+           descriptionLength      = projectDescription.length;
+           projectDate        = result[i]['post_modified'];
+           projectDay          = result[i]['post_day'];
+           projectDayLetter      = result[i]['post_day_letter'];
+           projectMonth        = result[i]['post_month'];
+           projectYear        = result[i]['post_year'];
+          
+           if(descriptionLength > 150 ) {
+            projectDescription = projectDescription.substr(0, 150);
+            projectDescription = projectDescription.substr(0, Math.min(projectDescription.length, projectDescription.lastIndexOf(" ")));
+           }
+		   
+		 projectHtml +='<li>';
+		 projectHtml +='<a href="projects.inner.html" data-id="'+projectId+'">';
+		 projectHtml +='<div class="list_work">';
+		 projectHtml +='<div class="image">';
+		 projectHtml +='<img src="img/icon2-small.png" alt="small_icon"/>';
+		 projectHtml +='</div>';
+		 projectHtml +='<p class="appeal">'+projectTitle+'</p>';
+		 projectHtml +='<img src="img/frwd-arrow-small.PNG" alt="frwd_icon"/>';
+		 projectHtml +='</div>'
+		 projectHtml +='</a>'
+		 projectHtml +='</li>';
+          }
+        } else {
+        
+          projectHtml += '<li style="text-align:center;color:#fff;">';
+          projectHtml += 'No Record Found';
+          projectHtml += '</li>';
+        }
+      }
+    });
+    
+    $('.proj_content ul').html(projectHtml);
+}
+
+	
+	function getTotalitems(catId,regionIdz){
+	   var total_count = $(".proj_content ul").find('li').size();
+	   
+	   if(total_count<9){
+	     $(".loadmore2").hide();
+	   }
+	   
+	   if(catId=="0" && regionIdz=="0"){
+	     $(".loadmore").show();
+	     $(".loadmore2").hide();
+	   }	   
+	}
+	function get_project_posts(categoryId , regionId ,limits ){
+		$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/get_projects.php',
+				data:{
+				  limits:limits,
+				  categoryId:categoryId,
+				  regionId:regionId
+				},
+				beforeSend:function(){
+				    $(".proj_content ul").html('');
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".proj_content ul").html(res);
+				   $(".ui-loader").hide();
+				   var total_count = $(".proj_content ul").find('li').size();
+	   
+				   if(total_count<9){
+					 $(".loadmore2").hide();
+				   }else{
+					$(".loadmore2").show();
+				   }
+				   
+				   if(categoryId=="0" && regionId=="0"){
+					 $(".loadmore").show();
+					 $(".loadmore2").hide();
+				   }
+				}
+			});
+
+	}
+	$(document).ready(function(){
+	     var xix = 10;
+	     $("html,body").on('click',"#load_project2",function(){
+		     xix = xix + 5;
+			 var categoryId= $("#project_categories").val();
+			 var regionId = $("#projects_region").val();
+			 var timer = setTimeout(function(){
+			 get_project_posts(categoryId , regionId ,xix);
+			   //AllProjects(categoryId , regionId ,0,xix);
+			 },100);
+		});
+		/*$(".footer_tab_btn ul li a").on('vclick',function(){
+			var url = $(this).attr('data-url');
+    		$.mobile.changePage( url, { transition: "slide", changeHash: false });
+		});*/
+	
+		 //var objConnection = navigator.network.connection;
+        // if (objConnection.type == Connection.NONE) {
+         //   alert("Please check your network connection"); 
+	//	 $(".ui-loader").hide();
+      //   }else{
+			$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/data_project.php',
+				beforeSend:function(){
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".proj_content ul").html(res);
+				   $(".ui-loader").hide();
+				}
+			});
+		//}
+		$(document).on('vclick',".proj_content ul li a",function(e){
+			//e.preventDefault();
+			var dataId = $(this).attr('data-id');
+			sessionStorage.projId = dataId;
+			//window.location.href="projects_inner.html";
+    		//$.mobile.changePage( "projects_inner.html", { transition: "slide", changeHash: false });
+		});
+		var categoryId, categoryTitle ;
+		var categoriesDropdown = '';
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/services/categories.php',
+			async: false,
+			dataType: "json",
+			data: {},
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(data){
+			    $(".selectboxes select#project_categories").prop('disabled',false);
+			    var result = data['data'];
+				var totalRecords = data['data'].length;
+			
+				categoriesDropdown += '<option value="0">Select Category</option>';
+				if(totalRecords) {
+				
+				  for(var i=0; i< totalRecords ; i++) {
+			  
+					 categoryId          = result[i]['term_id'];
+					 categoryTitle        = result[i]['name'];
+					 categoriesDropdown += '<option value="'+categoryId+'">'+categoryTitle+'</option>';
+				  }
+				} 
+			     $(".selectboxes #project_categories").html(categoriesDropdown);
+			     $(".ui-loader").hide();
+			}
+		});
+		
+		var regionId, regionTitle ;
+		var regionsDropdown = '';
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/services/regions.php',
+			async: false,
+			dataType: "json",
+			data: {},
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(data){
+			$(".selectboxes select#projects_region").prop('disabled',false);
+				var result = data['data'];
+				var totalRecords = data['data'].length;
+				regionsDropdown += '<option value="0">Select Region</option>';
+			
+				if(totalRecords) {
+				  for(var i=0; i< totalRecords ; i++) {
+					 regionId = result[i]['term_id'];
+					 regionTitle = result[i]['name'];
+					 regionsDropdown += '<option value="'+regionId+'">'+regionTitle+'</option>';
+				  }
+				} 
+			    
+				$(".selectboxes #projects_region").html(regionsDropdown);
+			    $(".ui-loader").hide();
+			}
+		});
+		
+		$("#project_categories").on('change',function(){
+			var catId= $(this).val();
+			var regionIdz= $("select#projects_region").val();
+			//AllProjects(catId , regionIdz ,0,15);
+			if(catId=="0" && regionIdz=="0"){
+			  $(".loadmore").show();
+			  $(".loadmore2").hide();
+			}else{
+				$(".loadmore").hide();
+		     	$(".loadmore2").show();
+			}
+			get_project_posts(catId , regionIdz ,10);
+			getTotalitems(catId,regionIdz);
+		});
+		$("#projects_region").on('change',function(){
+			var regId= $(this).val();
+			var catIdz= $("select#project_categories").val();
+			if(catIdz=="0" && regId=="0"){
+			  $(".loadmore").show();
+			  $(".loadmore2").hide();
+			}else{
+				$(".loadmore").hide();
+		     	$(".loadmore2").show();
+			}
+			get_project_posts(catIdz , regId ,10);
+			//AllProjects(catIdz , regId , 0,15);
+			getTotalitems(catIdz,regId);
+		});
+		var x = 12;
+		$("#load_project").on('vclick',function(){
+			x = x + 10;
+			$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/data_project.php',
+				data:{
+				  limits:x
+				},
+				beforeSend:function(){
+				    $(".proj_content ul").html('');
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".proj_content ul").html(res);
+				   $(".ui-loader").hide();
+				   getTotalitems();
+				}
+			});
+		});
+		
+	});
+    </script>
+</div>

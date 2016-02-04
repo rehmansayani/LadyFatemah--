@@ -1,0 +1,75 @@
+<div data-role="page" id="project_inner">
+	<main>
+	<div class="heading_top">
+    	<div class="container">
+    		<h5 class="fittext4">The <span>Lady Fatemah</span><small class="fittext3">(A.S)</small> Charitable Trust</h5>
+    	</div>
+    </div>
+    
+    <div class="title_bg1">	
+    	<div class="container">
+            <h3><a href="project.html" class="back-arrow"></a></h3>
+            <h1 class="fittext5">Project<div class="head_icon"><img src="img/icon3.png" alt="appeal_icon"/></div></h1>
+       </div>
+    </div>
+    <div class="clear"></div>
+    <div class="appeal_content inner_appeal_content inner_project_content paragraphics_unknown">
+       
+    </div>
+	<div class="ui-loader ui-corner-all ui-body-a ui-loader-default" style="display:none;"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+    <!--<div class="content_about">
+    	<div class="container">
+    	<p class="the_context paragraph">The Lady Fatemah Charitable Trust's central ethos is to give. And to give fully by eliminating all administration costs from funding. This means that every penny of your donation counts and goes towards establishing a better future for thousands around the world.</p>
+        <p class="the_context paragraph">There are many that do not have access to basic human rights such as water, shelter, with the help of supporters and volunteers around the world, we reach out to various villages, towns, families, individuals, charities and organizations to provide assistance on various appeals and projects.</p>
+        </div>
+    </div>-->
+
+	<div class="clear"></div>
+      <div class="footer_tab_btn">
+        <ul>
+            <li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt=""/></a></li>
+            <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt=""/></a></li>
+            <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt=""/></a></li>
+            <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt=""/></a></li>
+            <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt=""/></a></li>
+            <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt=""/></a></li>
+        </ul>
+    </div> 
+    </main>
+
+ 	<script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext5").fitText(1.4, { minFontSize: '22px', maxFontSize: '44px' });
+		$(".appeal").fitText(2.3, { minFontSize: '10px', maxFontSize: '28px' });
+		$(".paragraph").fitText(2.0, { minFontSize: '12px', maxFontSize: '28px' });
+		
+	</script>
+      <script>
+	$(document).ready(function(){
+		
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/single_project.php',
+			data:{
+			  proj_id:sessionStorage.projId
+			},
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(res){
+			   console.log(res);
+			   
+			   $(document).find(".inner_project_content").html(res);
+			   
+			   $(".ui-loader").hide();
+			   $(document).find(".inner_project_content").find('a').attr('href',"#");
+			},
+			complete:function(){
+			  $(document).find(".inner_project_content").find('a').attr('href',"#");
+			}
+		});
+	});
+    </script>
+</div>

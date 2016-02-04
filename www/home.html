@@ -1,0 +1,41 @@
+<div data-role="page" id="home">
+<main>
+    <div class="donation_main">
+    	<div class="container">
+        	<ul>
+            	<li><img src="img/inner_logo.png" alt="inner_logo"></li>
+                <li><a href="#" onclick="window.open('https://secure.ladyfatemahtrust.org/index.php', '_system');" ><img src="img/donation.png" alt="donation"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="menu_nav">
+    	<div class="container">
+        	<div class="nav">
+            	<ul>
+                	<li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt="home_icons"/><p class="fittext3">About Us</p></a></li>
+                    <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt="home_icons"/><p class="fittext3">Appeals</p></a></li>
+                    <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt="home_icons"/><p class="fittext3">Projects</p></a></li>
+                    <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt="home_icons"/><p class="fittext3">Ijaza</p></a></li>
+                    <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt="home_icons"/><p class="fittext3">Bank Details</p></a></li>
+                    <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt="home_icons"/><p class="fittext3">Contact Us</p></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+		<div class="socialIcons">
+			<a href="#" onclick="window.open('https://www.facebook.com/LadyFatemahTrust', '_system');"><img src="img/face.png" width="48px" height="48px"/></a><a href="#" onclick="window.open('https://twitter.com/lftrust', '_system');"><img src="img/twitt.png" width="48px" height="48px"/></a><a href="#" onclick="window.open('https://instagram.com/lfctrust', '_system');"><img src="img/insta.png" width="48px" height="48px"/></a>
+		</div>
+    </main>
+    
+ 	<script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext2").fitText(1.4, { minFontSize: '18px', maxFontSize: '44px' });
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+	</script>
+    <script>
+	 $("#home").on( "pageshow", function( event ) {
+		$(".ui-loader").hide();
+	 });
+    </script>
+</div>

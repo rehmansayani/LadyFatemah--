@@ -1,0 +1,308 @@
+<div data-role="page" id="appeal">
+	<main>
+	
+	<div class="heading_top">
+    	<div class="container">
+    		<h5 class="fittext4">The <span>Lady Fatemah</span><small class="fittext3">(A.S)</small> Charitable Trust</h5>
+    	</div>
+    </div>
+   
+    <div class="title_bg1">	
+    	<div class="container">
+            <h3><a href="home.html" class="back-arrow"></a></h3>
+            <h1 class="fittext5">Appeals<div class="head_icon"><img src="img/icon2.png" alt="appeal_icon"/></div></h1>
+       </div>
+    </div>
+	<div class="clear"></div>
+	 <div class="selectboxes">
+	 <select id="appeal_categories" disabled="true">
+	  <option value=''>Select Category</option>
+	 </select>
+	</div>
+	<div class="selectboxes">
+	 <select id="appeal_region" disabled="true">
+	 <option value=''>Select Region</option>
+	 </select>
+	</div>
+    <div class="clear"></div>
+    <div class="appeal_content">
+        <ul>
+            
+            
+        </ul>
+		<div class="loadmore" id="load_appeal">Load more</div>
+		 <div class="loadmore2" id="load_appeal2" style="display:none;">Load more</div>
+    </div>
+	
+	<div class="ui-loader ui-corner-all ui-body-a ui-loader-default" style="display:none;"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+    <!--<div class="content_about">
+    	<div class="container">
+    	<p class="the_context paragraph">The Lady Fatemah Charitable Trust's central ethos is to give. And to give fully by eliminating all administration costs from funding. This means that every penny of your donation counts and goes towards establishing a better future for thousands around the world.</p>
+        <p class="the_context paragraph">There are many that do not have access to basic human rights such as water, shelter, with the help of supporters and volunteers around the world, we reach out to various villages, towns, families, individuals, charities and organizations to provide assistance on various appeals and projects.</p>
+        </div>
+    </div>-->
+
+	<div class="clear"></div>
+      <div class="footer_tab_btn">
+        <ul>
+            <li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt=""/></a></li>
+            <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt=""/></a></li>
+            <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt=""/></a></li>
+            <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt=""/></a></li>
+            <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt=""/></a></li>
+            <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt=""/></a></li>
+        </ul>
+    </div> 
+    </main>
+
+ 	<script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext5").fitText(1.4, { minFontSize: '22px', maxFontSize: '44px' });
+		$(".appeal").fitText(2.3, { minFontSize: '10px', maxFontSize: '28px' });
+		$(".paragraph").fitText(2.0, { minFontSize: '12px', maxFontSize: '28px' });
+		
+	</script>
+      <script>
+  function AllAppeals(categoryId , regionId , date,limits ) {
+  
+   var appealId, appealTitle , appealDescription  , appealDate,appealDay ,appealDayLetter ,appealMonth ,appealYear;
+   var appealHtml = '';
+  $.ajax({
+      type: "POST",
+      async: false,
+      dataType: "json",
+      url: 'http://www.ladyfatemahtrust.org/services/appeals.php',
+      data: {categoryId :categoryId ,regionId:regionId ,date:date,limits:limits},
+	  beforeSend:function(){
+				$(".ui-loader").show();
+			},
+      success: 
+      function(data) { 
+		$(".ui-loader").hide();
+        var result        = data['data'];
+        var totalRecords    = data['data'].length;
+        if(totalRecords) {
+          for(var i=0; i< totalRecords ; i++) {
+           appealId  = result[i]['post_id'];
+           appealTitle = result[i]['post_title'];
+           appealDescription = result[i]['post_content'];
+           appealLength = appealDescription.length;
+           appealDate = result[i]['post_modified'];
+           appealDay = result[i]['post_day'];
+           appealDayLetter = result[i]['post_day_letter'];
+           appealMonth = result[i]['post_month'];
+           appealYear  = result[i]['post_year'];
+          
+           if(appealLength >= 150) {
+            appealDescription = appealDescription.substr(0, 150);
+            appealDescription = appealDescription.substr(0, Math.min(appealDescription.length, appealDescription.lastIndexOf(" ")));
+           }
+           
+	 	 appealHtml +='<li>';
+		 appealHtml +='<a href="appeal_inner.html" data-id="'+appealId+'">';
+		 appealHtml +='<div class="list_work">';
+		 appealHtml +='<div class="image">';
+		 appealHtml +='<img src="img/icon2-small.png" alt="small_icon"/>';
+		 appealHtml +='</div>';
+		 appealHtml +='<p class="appeal">'+appealTitle+'</p>';
+		 appealHtml +='<img src="img/frwd-arrow-small.PNG" alt="frwd_icon"/>';
+		 appealHtml +='</div>'
+		 appealHtml +='</a>'
+		 appealHtml +='</li>';
+
+          }
+        }
+		  $('.appeal_content ul').html(appealHtml);
+      }
+    });
+    
+}
+     function getTotalitems(catId,regionIdz){
+	   var total_count = $(".appeal_content ul").find('li').size();
+	   if(total_count<10){
+	     $(".loadmore2").hide();
+	   }
+	   
+	   if(catId=="0" && regionIdz=="0"){
+	     $(".loadmore").show();
+	     $(".loadmore2").hide();
+	   }
+	}
+	function get_appeal_posts(categoryId , regionId ,limits ){
+		$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/get_appeals.php',
+				data:{
+				  limits:limits,
+				  categoryId:categoryId,
+				  regionId:regionId
+				},
+				beforeSend:function(){
+				    $(".appeal_content ul").html('');
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".appeal_content ul").html(res);
+				   $(".ui-loader").hide();
+				   var total_count = $(".appeal_content ul").find('li').size();
+	   
+				   if(total_count<9){
+					 $(".loadmore2").hide();
+				   }else{
+					$(".loadmore2").show();
+				   }
+				   
+				   if(categoryId=="0" && regionId=="0"){
+					 $(".loadmore").show();
+					 $(".loadmore2").hide();
+				   }
+				}
+			});
+
+	}
+	$(document).ready(function(){
+	     var xix = 10;
+	     $("body,html").on('click',"#load_appeal2",function(){
+		     xix = xix + 5;
+			 var categoryId= $("#appeal_categories").val();
+			 var regionId = $("#appeal_region").val();
+			 var timer = setTimeout(function(){
+			    get_appeal_posts(categoryId , regionId ,xix );
+				//AllAppeals(categoryId , regionId ,0,xix);
+			 },100);
+		});
+		$(document).on('vclick',".appeal_content ul li a",function(e){
+			//e.preventDefault();
+			var dataId = $(this).attr('data-id');
+			sessionStorage.dataId = dataId;
+    		//$.mobile.changePage( "appeals_inner.html", { transition: "slide"});
+		});
+	   //var objConnection = navigator.network.connection;
+      // if (objConnection.type == Connection.NONE) {
+       //   alert("Please check your network connection"); 
+		//  $(".ui-loader").hide();
+      // }else{
+			$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/data_appeal.php',
+				beforeSend:function(){
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".appeal_content ul").html(res);
+				   $(".ui-loader").hide();
+				}
+			});
+		//}
+		var categoryId, categoryTitle ;
+		var categoriesDropdown = '';
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/services/categories.php',
+			async: false,
+			dataType: "json",
+			data: {},
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(data){
+			    $(".selectboxes select#appeal_categories").prop('disabled',false);
+			    var result = data['data'];
+				var totalRecords = data['data'].length;
+			
+				categoriesDropdown += '<option value="0">Select Category</option>';
+				if(totalRecords) {
+				
+				  for(var i=0; i< totalRecords ; i++) {
+					 categoryId          = result[i]['term_id'];
+					 categoryTitle        = result[i]['name'];
+					 categoriesDropdown += '<option value="'+categoryId+'">'+categoryTitle+'</option>';
+				  }
+				} 
+			     $(".selectboxes #appeal_categories").html(categoriesDropdown);
+			     $(".ui-loader").hide();
+			}
+		});
+		
+		var regionId, regionTitle ;
+		var regionsDropdown = '';
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/services/regions.php',
+			async: false,
+			dataType: "json",
+			data: {},
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(data){
+			$(".selectboxes select#appeal_region").prop('disabled',false);
+				var result = data['data'];
+				var totalRecords = data['data'].length;
+				regionsDropdown += '<option value="0">Select Region</option>';
+			
+				if(totalRecords) {
+				  for(var i=0; i< totalRecords ; i++) {
+					 regionId = result[i]['term_id'];
+					 regionTitle = result[i]['name'];
+					 regionsDropdown += '<option value="'+regionId+'">'+regionTitle+'</option>';
+				  }
+				} 
+			    
+				$(".selectboxes #appeal_region").html(regionsDropdown);
+			    $(".ui-loader").hide();
+			}
+		});
+		$("#appeal_categories").on('change',function(){
+			var catId= $(this).val();
+			var regionIdz= $("select#appeal_region").val();
+			if(catId=="0" && regionIdz=="0"){
+			  $(".loadmore").show();
+			  $(".loadmore2").hide();
+			}else{
+				$(".loadmore").hide();
+		     	$(".loadmore2").show();
+			}
+			get_appeal_posts(catId , regionIdz ,10 );
+			//AllAppeals(catId , regionIdz , 0,15 );
+			getTotalitems(catId,regionIdz);
+		});
+		$("#appeal_region").on('change',function(){
+			var regId= $(this).val();
+			var catIdz= $("select#appeal_categories").val();
+			if(catIdz=="0" && regId=="0"){
+			  $(".loadmore").show();
+			  $(".loadmore2").hide();
+			}else{
+				$(".loadmore").hide();
+		     	$(".loadmore2").show();
+			}
+			get_appeal_posts(catIdz , regId ,10 );
+			//AllAppeals(catIdz , regId , 0,15 );
+			getTotalitems(catIdz,regId);
+		});
+		var x = 12;
+		$("#load_appeal").on('vclick',function(){
+			x = x + 10;
+			$.ajax({
+				type:'POST',
+				url:'http://www.ladyfatemahtrust.org/data_appeal.php',
+				data:{
+				  limits:x
+				},
+				beforeSend:function(){
+				    $(".appeal_content ul").html('');
+					$(".ui-loader").show();
+				},
+				success:function(res){
+				   $(".appeal_content ul").html(res);
+				   $(".ui-loader").hide();
+				   getTotalitems();
+				}
+			});
+		});
+	});
+	 </script>
+</div>

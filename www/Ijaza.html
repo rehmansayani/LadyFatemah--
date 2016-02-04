@@ -1,0 +1,63 @@
+<div data-role="page" id="ijaza">
+	<main>
+	<div class="heading_top">
+    	<div class="container">
+    		<h5 class="fittext4">The <span>Lady Fatemah</span><small class="fittext3">(A.S)</small> Charitable Trust</h5>
+    	</div>
+    </div>
+    
+    <div class="title_bg1">	
+    	<div class="container">
+            <h3><a href="home.html" class="back-arrow"></a></h3>
+            <h1 class="fittext5">Ijaza<div class="head_icon"><img src="img/icon1.png" alt="ebout_icon"/></div></h1>
+       </div>
+    </div>
+    <div class="clear"></div>
+    <div class="content_about">
+    	<div class="container">
+		<a href="#popupParis" data-rel="popup" data-position-to="window" data-transition="fade"><img src="img/ijazaOnline.jpg" id="ijaza_big"/></a>
+			
+        </div>
+    </div>
+	<div class="ui-loader ui-corner-all ui-body-a ui-loader-default" style="display:none;"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+	<div class="clear"></div>
+	<div data-role="popup" id="popupParis" data-overlay-theme="b" data-theme="b" data-corners="false">
+		<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><img class="popphoto" src="img/ijazaOnline.jpg" style="max-height:512px;" alt="Paris, France">
+	</div>
+    <div class="footer_tab_btn">
+     <ul>
+            <li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt=""/></a></li>
+            <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt=""/></a></li>
+            <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt=""/></a></li>
+            <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt=""/></a></li>
+            <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt=""/></a></li>
+            <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt=""/></a></li>
+        </ul>
+    </div>    
+    </main>
+    
+
+ 	<script src="js/jquery.fittext.js"></script>
+
+	<script type="text/javascript">
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext5").fitText(1.4, { minFontSize: '22px', maxFontSize: '44px' });
+		$(".paragraph").fitText(2.0, { minFontSize: '12px', maxFontSize: '28px' });
+	</script>
+    <script type="text/javascript">
+   //alert('using mobile init');
+		$(document).on("mobileinit", function(){
+		$.mobile.buttonMarkup.hoverDelay = 0;
+		$.mobile.defaultPageTransition   = 'none';
+		$.mobile.defaultDialogTransition = 'none';
+		$.mobile.page.prototype.options.domCache = false;
+		$.mobile.allowCrossDomainPages = true;
+		$.support.cors = true;
+		$.mobile.metaViewportContent = "width=device-width, minimum-scale=1, maximum-scale=2";
+		$.event.special.swipe.horizontalDistanceThreshold = 50;
+		//alert('making fast workinggggggg');
+		});
+   </script>
+</div>
+

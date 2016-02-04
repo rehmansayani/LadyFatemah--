@@ -1,0 +1,61 @@
+<div data-role="page" id="contact">
+<main>
+	<div class="heading_top">
+    	<div class="container">
+    		<h5 class="fittext4">The <span>Lady Fatemah</span><small class="fittext3">(A.S)</small> Charitable Trust</h5>
+    	</div>
+    </div>
+    
+    <div class="title_bg1">	
+    	<div class="container">
+            <h3><a href="home.html" class="back-arrow"></a></h3>
+            <h1 class="fittext5">Contact Us<div class="head_icon"><img src="img/icon6.png" alt="ebout_icon"/></div></h1>
+       </div>
+    </div>
+    
+    <div class="content_about">
+    	
+    </div>
+	<div class="ui-loader ui-corner-all ui-body-a ui-loader-default" style="display:none;"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+	<div class="clear"></div>
+      <div class="footer_tab_btn">
+        <ul>
+            <li><a href="about_us.html" data-url="about_us.html"><img src="img/icon1.png" alt=""/></a></li>
+            <li><a href="appeals.html" data-url="appeals.html"><img src="img/icon2.png" alt=""/></a></li>
+            <li><a href="project.html" data-url="project.html"><img src="img/icon3.png" alt=""/></a></li>
+            <li><a href="Ijaza.html" data-url="Ijaza.html"><img src="img/icon4.png" alt=""/></a></li>
+            <li><a href="bank_detail.html" data-url="bank_detail.html"><img src="img/icon5.png" alt=""/></a></li>
+            <li><a href="contact_us.html" data-url="contact_us.html"><img src="img/icon6.png" alt=""/></a></li>
+        </ul>
+    </div> 
+    </main>
+
+ 	<script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+		$(".fittext4").fitText(2.0, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext5").fitText(1.4, { minFontSize: '22px', maxFontSize: '44px' });
+		$(".paragraph").fitText(2.0, { minFontSize: '12px', maxFontSize: '28px' });
+	</script>
+      <script>
+	$(document).ready(function(){
+	/*$(".footer_tab_btn ul li a").on('tap',function(){
+			var url = $(this).attr('data-url');
+    		$.mobile.changePage( url, { transition: "slide", changeHash: false });
+		});*/
+		
+		$.ajax({
+			type:'POST',
+			url:'http://www.ladyfatemahtrust.org/data_contact.php',
+			beforeSend:function(){
+				$(".ui-loader").show();
+			},
+			success:function(res){
+			   $(".content_about").html(res);
+			   $(".ui-loader").hide();
+			}
+		});
+	});
+    </script>
+</div>
+

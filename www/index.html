@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=3.0, minimum-scale=1.0, width=device-width, height=device-height" />
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+<script src="js/jquery.min.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script>-->
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<script>
+document.addEventListener("deviceready", checkConnection, false);
+function checkConnection() {
+      //var objConnection = navigator.network.connection;
+      //if (objConnection.type == Connection.NONE) {
+      //  alert("Please check your network connection"); 
+     // }
+    }
+	
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    document.addEventListener("backbutton", onBackKeyDown, false);
+}
+function onBackKeyDown(e) {
+    e.preventDefault();
+    navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No"); 
+    // Prompt the user with the choice
+}
+
+
+function onConfirm(button) {
+    if(button==2){//If User selected No, then we just do nothing
+        return;
+    }else{
+        navigator.app.exitApp();// Otherwise we quit the app.
+    }
+}
+$(document).ready(function(){
+   $(document).find('.back-arrow').on('click',function(){
+	  $(".ui-loader").hide();
+   });
+});
+
+
+</script>
+</head>
+
+<body>
+<div class="green_bg">
+	<main>
+	<div class="container">
+    	<div class="logo_image">
+        	<img src="img/logo.png" alt="logo">
+        </div>     
+        <div class="text_heading">
+        	<p class="big_34 fittext1">Welcome To</p>
+			<p class="big_44 fittext2">Lady Fatemah<small class="fittext3">(A.S)</small> <span class="big_49 fittext2">Charity Trust</span></p>
+        </div>
+    	
+    </div>
+    </main>
+    </div>
+    <script src="js/jquery.fittext.js"></script>
+	<script type="text/javascript">
+		$(".fittext1").fitText(1.6, { minFontSize: '14px', maxFontSize: '36px' });
+		$(".fittext2").fitText(1.4, { minFontSize: '18px', maxFontSize: '44px' });
+		$(".fittext3").fitText(1.6, { minFontSize: '10px', maxFontSize: '22px' });
+	</script>
+	<script>
+		$(document).ready(function(){
+			$(".green_bg").on('swipeleft',function(){
+				$.mobile.changePage( "home.html", { transition: "slide", changeHash: false });
+			});
+			
+			setTimeout(function(){
+				$.mobile.changePage( "home.html", { transition: "slide", changeHash: false });
+			},600);
+		});
+		
+		
+    </script>
+</body>
+</html>
